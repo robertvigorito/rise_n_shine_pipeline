@@ -1,8 +1,7 @@
 import os
 import nuke
 import sys
-from getpass import *
-from Nuke_Functions import *
+import Nuke_Scripts.base_functions as bf
 
 
 n = nuke.menu('Nuke').addMenu('Rise n Shine')
@@ -35,9 +34,8 @@ def open_file_directory():
 
 class OpenDirectory:
     def __init__(self):
-        # Retrieve Google Drive location from username
         try:
-            self.google_drive_directory = Drive_Dir().Read(getuser())
+            self.google_drive_directory = bf.json_read_write()
         except KeyError:
             nuke.message('Can not find Google Drive location path, please try adding location path!')
 
@@ -48,11 +46,9 @@ class OpenDirectory:
             self.shot_code = ''
             print 'Function ran outside of nuke'
 
-    # Open Google Drive Directory
     def open_drive_directory(self):
         os.startfile(self.google_drive_directory)
 
-    # Open shot directory within Google Drive directory
     def open_shot_directory(self):
         shot_directory = self.google_drive_directory + 'Comp/' + self.shot_code
         os.startfile(shot_directory)

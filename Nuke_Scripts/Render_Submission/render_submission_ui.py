@@ -1,10 +1,12 @@
-from Nuke_Scripts.Nuke_Functions import *
-from PySide.QtCore import *
+import Nuke_Scripts.base_functions as bf
+import nuke
 from getpass import getuser
 from source_access import *
+from PySide.QtCore import *
 from PySide.QtGui import *
 import os
-import  sys
+import sys
+
 
 try:
     m = nuke.menu('Nuke').addMenu('Rise n Shine')
@@ -43,7 +45,7 @@ class RenderSubmission(QDialog):
         except IndexError:
             pass
         # Assigning user google sync path
-        self.google_drive = Drive_Dir().Read(getuser())
+        self.google_drive = bf.json_read_write()
         self.review_directory = self.google_drive + 'Comp/{}/Renders/Review/'.format(self.shot_code.text())
 
         # Create label and pull down box for task job
@@ -124,14 +126,10 @@ def run_app():
     render_submission = RenderSubmission()
     render_submission.show()
 
-    # app = QApplication(sys.argv)
-    # render_submission = RenderSubmission()
-    # render_submission.show()
-    # sys.exit(app.exec_())
-
-
 if __name__ == '__main__':
-    run_app()
-
+    app = QApplication(sys.argv)
+    render_submission = RenderSubmission()
+    render_submission.show()
+    sys.exit(app.exec_())
 
 
