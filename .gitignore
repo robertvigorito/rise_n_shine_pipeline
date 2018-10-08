@@ -1,0 +1,5 @@
+.Gizmo
+.site_packages
+.ToolSets
+..nuke
+/*.ini
