@@ -1,5 +1,5 @@
 .Gizmo
 .site_packages
 .ToolSets
-..nuke
+.nuke
 /*.ini
