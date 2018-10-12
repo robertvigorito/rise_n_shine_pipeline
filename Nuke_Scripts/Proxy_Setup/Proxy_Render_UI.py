@@ -2,16 +2,15 @@ import getpass
 import sys
 import os
 sys.path.append(os.getcwd()[:-11])
-
+import Nuke_Scripts.base_functions as bf
 from PySide.QtCore import *
 from PySide.QtGui import *
-from Nuke_Functions import *
 from Proxy_Setup.Proxy_Render import *
 
 try:
     if getpass.getuser() == 'Rob':
         m = nuke.menu('Nuke').addMenu('Rise n Shine')
-        m.addCommand('Proxy Render', 'from Proxy_Setup.Proxy_Render_UI import *; run_proxy_ui()', 'shift+w')
+        m.addCommand('Proxy Render', 'from Proxy_Setup.Proxy_Render_UI import *; run_proxy_ui()')
 except AttributeError:
     print 'Module loaded outside of Nuke...'
 
@@ -21,7 +20,7 @@ class ProxyUI(QDialog):
         super(ProxyUI, self).__init__(parent=QApplication.activeWindow())
         self.setWindowTitle('Proxy Render Tool')
         self.setMinimumSize(300, 100)
-        self.google_drive = Drive_Dir().Read(getpass.getuser())
+        self.google_drive = bf.json_read_write()
         self.setLayout(self.layout1()[0])
 
     def layout1(self):

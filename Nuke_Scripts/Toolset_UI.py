@@ -4,7 +4,7 @@ import nuke
 from PySide.QtGui import *
 from PySide.QtCore import *
 import nukescripts
-from Nuke_Functions import *
+import Nuke_Scripts.base_functions as bf
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
 m.addCommand("-", "", "")
@@ -20,7 +20,7 @@ class Toolset(QDialog):
         self.setFixedSize(350, 195)
         self.setStyleSheet('QDialog {background : #262c35}')
         self.Toolset_Dir = ''
-        self.Toolset_Dir = Drive_Dir().Read(getpass.getuser()) + 'Pipeline/ToolSets/'
+        self.Toolset_Dir = os.path.join(bf.json_read_write(), 'Pipeline/ToolSets/')
         self.Toolset_List = [x for x in os.listdir(self.Toolset_Dir) if os.path.isdir(self.Toolset_Dir + x)] + [
             'Create Folder']
         self.master()

@@ -44,3 +44,22 @@ def read_write_nuke_init(nuke_init_file, plugin_path_list):
     with open(nuke_init_file, 'w') as open_write_file:
         open_write_file.write(data)
 
+
+def CreateReadNode(Folder_Path=None, Name=None, Format='.exr'):
+    ## Define File Format
+    Dir_Files = sorted([x for x in os.listdir(Folder_Path) if x.endswith(Format)])
+    if Dir_Files and 'tmp' not in Folder_Path:
+        ## Assign Name | Version if True
+        if not Name:
+            Name = Folder_Path.split('/')[-1]
+            Version = len([x.name() for x in nuke.allNodes('Read') if Name in x.name()])
+            if Version:
+                Name += '_v%s' % Version
+        ## Find First || Last Frame
+        First_Frame = Dir_Files[0].split('.')[-2]
+        Last_Frame = Dir_Files[-1].split('.')[-2]
+        ## Assign File Path
+        File_Path = Folder_Path + '/' + Dir_Files[0].replace(First_Frame, '%04d')
+        ## Create Read Node
+        Read_Node = nuke.nodes.Read(name=Name, file=File_Path, first=First_Frame, last=Last_Frame)
+        return Read_Node

@@ -1,8 +1,7 @@
 import os
 import nuke
 import sys
-from getpass import *
-from Nuke_Functions import *
+import base_functions as bf
 from PySide.QtGui import *
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
@@ -17,7 +16,7 @@ def shot_creator(shot_directory, shot_number):
     # Import Plate folders
     for directory, folder, files in os.walk(shot_directory + 'Comp/{}/Plates/'.format(shot_number)):
         if not folder:
-            CreateReadNode(directory)
+            bf.CreateReadNode(directory)
     # Assign shot number and shot directory
     shot_directory += 'Comp/{}/Scripts/{}_v001.nk'.format(shot_number, shot_number)
 
@@ -42,7 +41,7 @@ def sync():
         for x in nuke.allNodes('Read'):
             file_name = x['file'].getValue().split('/VFX Project/')[1]
             if 'VFX Project' in file_name:
-                file_name = Drive_Dir().Read(getpass.getuser()) + 'VFX Project/' + file_name
+                file_name = os.path.join(bf.json_read_write(),  file_name)
                 x['file'].setValue(file_name)
         nuke.message('sync complete!')
     except:
@@ -56,7 +55,7 @@ class ShotLoader(QDialog):
         self.setMinimumSize(100, 400)
         # Set variables
         self.shot_dic = {}
-        self.google_drive = Drive_Dir().Read(getuser())
+        self.google_drive = bf.json_read_write()
         self.scene_location = self.google_drive + 'Comp/'
         # Load master Layer
         self.master()
@@ -124,17 +123,14 @@ class ShotLoader(QDialog):
         
 def run():
     for app in qApp.allWidgets():
-        if type(app).__name__ == 'Seahorse_UI':
+        if type(app).__name__ == 'ShotLoader':
             app.close()
     shot_loader = ShotLoader()
     shot_loader.show()
 
 
-
-"""
-app = QApplication(sys.argv)
-shot_loader = ShotLoader()
-shot_loader.show()
-sys.exit(app.exec_())
-"""
-
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    shot_loader = ShotLoader()
+    shot_loader.show()
+    sys.exit(app.exec_())

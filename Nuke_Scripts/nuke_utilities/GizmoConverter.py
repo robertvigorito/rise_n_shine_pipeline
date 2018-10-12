@@ -3,7 +3,7 @@ import nuke, time
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
 m.addCommand("-", "-")
-m.addCommand("Convert Gizmo to Group", "import GizmoConverter; GizmoConverter.runGC()")
+m.addCommand("Convert Gizmo to Group", "from Nuke_Scripts.nuke_utilities import GizmoConverter; GizmoConverter.runGC()")
 
 def ConvertGroup(x):
     GizmoVal = x.name(), x.xpos(), x.ypos(), x['tile_color'].value()
