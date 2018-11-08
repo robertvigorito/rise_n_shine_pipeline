@@ -1,4 +1,6 @@
+import os
 import nuke
+import base_functions as bf
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
 m.addCommand('-', '-', '')
@@ -11,10 +13,13 @@ m.addCommand('-', '-', '')
 class WriteNode:
     def __init__(self):
         project_name = nuke.Root()['name'].getValue()
-
+        shot_code = nuke.root().name().rsplit('/')[5]
+        google_drive = bf.json_read_write()
         if project_name:
             self.mov_file_path = project_name.replace('Scripts', 'Renders/Review/Comp')[:-3] + '.mov'
-            self.exr_file_path = project_name.replace('Scripts', 'Renders/Final')[:-3] + '.%04d.exr'
+            # self.exr_file_path = project_name.replace('Scripts', 'Renders/Final')[:-3] + '.%04d.exr'
+            print google_drive
+            self.exr_file_path = os.path.join(google_drive, 'Final/{}/{}.%04d.exr'.format(shot_code, shot_code))
         else:
             self.mov_file_path, self.exr_file_path = '', ''
 

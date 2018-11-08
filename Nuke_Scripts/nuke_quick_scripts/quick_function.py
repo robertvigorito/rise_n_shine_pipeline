@@ -7,6 +7,7 @@ import Nuke_Scripts.base_functions as bf
 
 n = nuke.menu('Nuke').addMenu('Rise n Shine')
 n.addCommand('-', '-')
+n.addCommand('Sync Read Nodes ', 'from nuke_quick_scripts.quick_function import *;sync_read_nodes()')
 n.addCommand('Open Node File Path', 'from nuke_quick_scripts.quick_function import *;open_file_directory()', 'shift+e')
 n.addCommand('Open Google Drive',
              'from nuke_quick_scripts.quick_function import *; OpenDirectory().open_drive_directory()')
@@ -16,6 +17,20 @@ n.addCommand('-', '-')
 n.addCommand('Reload Read Nodes', 'from nuke_quick_scripts.quick_function import *; reload_read_nodes()')
 n.addCommand('Smart Frame Hold', 'from nuke_quick_scripts.quick_function import *; frame_hold()', 'shift+f')
 n.addCommand('Create V-Ray Camera', 'from nuke_quick_scripts.quick_function import *; createExrCamVray()')
+
+
+def sync_read_nodes():
+    google_drive = bf.json_read_write()
+    _search_str = '/VFX Project/'
+
+    for node in nuke.allNodes():
+        if node.knob('file'):
+            old_file_path = node['file'].getValue()
+            new_file_path = os.path.join(google_drive, old_file_path.split('VFX Project/', 1)[-1]).replace('\\', '/')
+            if _search_str in old_file_path:
+                node['file'].setValue(new_file_path)
+            else:
+                print '{} is not saved on shared drive'.format(old_file_path)
 
 
 def open_file_directory():

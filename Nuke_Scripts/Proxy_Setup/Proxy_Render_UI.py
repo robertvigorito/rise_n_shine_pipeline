@@ -3,8 +3,14 @@ import sys
 import os
 sys.path.append(os.getcwd()[:-11])
 import Nuke_Scripts.base_functions as bf
-from PySide.QtCore import *
-from PySide.QtGui import *
+try:
+    from PySide.QtCore import *
+    from PySide.QtGui import *
+except ImportError:
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
+
 from Proxy_Setup.Proxy_Render import *
 
 try:

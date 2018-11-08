@@ -1,9 +1,14 @@
 import Nuke_Scripts.base_functions as bf
 import nuke
 from getpass import getuser
-from source_access import *
-from PySide.QtCore import *
-from PySide.QtGui import *
+from google_api import *
+try:
+    from PySide.QtCore import *
+    from PySide.QtGui import *
+except ImportError:
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
 import os
 import sys
 
@@ -34,7 +39,7 @@ class RenderSubmission(QDialog):
 
         # Create labels and add shot code
         label_2 = QLabel('Shot Code:')
-        self.shot_code = QLineEdit('001_002')
+        self.shot_code = QLineEdit('003_002')
         self.shot_code.textEdited.connect(self.set_combo_box)
 
         # If nuke is imported find shot code

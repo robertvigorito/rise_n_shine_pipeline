@@ -1,5 +1,12 @@
-from PySide.QtGui import *
-import nuke, time 
+import nuke, time
+
+try:
+    from PySide.QtGui import *
+except ImportError:
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
+
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
 m.addCommand("-", "-")

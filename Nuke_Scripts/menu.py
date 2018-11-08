@@ -1,3 +1,4 @@
+from getpass import getuser
 import RNS_Shot_Loader
 import Toolset_UI
 import Proxy_Setup.Proxy_Render_UI

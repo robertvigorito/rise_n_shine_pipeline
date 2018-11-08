@@ -2,11 +2,15 @@ import os
 import nuke
 import sys
 import base_functions as bf
-from PySide.QtGui import *
+try:
+    from PySide.QtGui import *
+except ImportError:
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
 
 m = nuke.menu('Nuke').addMenu('Rise n Shine')
 m.addCommand('Shot Loader', 'import RNS_Shot_Loader;RNS_Shot_Loader.run() ', 'f1')
-m.addCommand('sync Read Nodes', 'RNS_import Shot_Loader;RNS_Shot_Loader.sync()')
 
 
 def shot_creator(shot_directory, shot_number):
@@ -34,18 +38,6 @@ def shot_creator(shot_directory, shot_number):
     nuke.Root()['first_frame'].setValue(1001)
     nuke.Root()['last_frame'].setValue(last_frame)
     nuke.Root()['lock_range'].setValue(1)
-
-
-def sync():
-    try:
-        for x in nuke.allNodes('Read'):
-            file_name = x['file'].getValue().split('/VFX Project/')[1]
-            if 'VFX Project' in file_name:
-                file_name = os.path.join(bf.json_read_write(),  file_name)
-                x['file'].setValue(file_name)
-        nuke.message('sync complete!')
-    except:
-        nuke.message('Please sync your Google Drive!')
 
 
 class ShotLoader(QDialog):
