@@ -55,11 +55,6 @@ def proxy_render(file_directory, shot_number, shot_name, main_plate=True, proxy=
         write1.setInput(0, reformat)
         write1.setYpos(write1.ypos() + 35)
 
-        # Render elements
-        if main_plate:
-            nuke.execute(write, 1001, last_frame)
-        if proxy:
-            nuke.execute(write1, 1001, last_frame)
         return
 
 

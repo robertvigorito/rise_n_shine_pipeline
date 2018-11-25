@@ -139,7 +139,6 @@ if __name__ == '__main__':
         if os.path.exists(thumbnail):
             thumbnail_file = glob.glob(thumbnail + '/*.jpeg')[-1]
             jpeg_file_name = thumbnail_file.rsplit('\\', 1)[-1]
-            time.sleep(5)
             try:
                 file_id = gd.find_file(jpeg_file_name).get('id', '')
                 gs.set_thumbnail(shot_code, file_id)

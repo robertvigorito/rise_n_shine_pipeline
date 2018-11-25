@@ -2,12 +2,16 @@ import os
 import nuke
 import base_functions as bf
 
-m = nuke.menu('Nuke').addMenu('Rise n Shine')
-m.addCommand('-', '-', '')
-m.addCommand('Review Render', 'from Render_Submission.WriteNode import *;WriteNode().pro_res_write()', 'alt+f1')
-m.addCommand('Final Render', 'from Render_Submission.WriteNode import *;WriteNode().exr_write()', 'alt+f2')
-m.addCommand('Pre Comp Render', 'from Render_Submission.WriteNode import *;WriteNode().pre_comp_write()', 'alt+f3')
-m.addCommand('-', '-', '')
+try:
+    m = nuke.menu('Nuke').addMenu('Rise n Shine')
+    m.addCommand('-', '-', '')
+    m.addCommand('Review Render', 'from Render_Submission.WriteNode import *;WriteNode().pro_res_write()', 'alt+f1')
+    m.addCommand('Final Render', 'from Render_Submission.WriteNode import *;WriteNode().exr_write()', 'alt+f2')
+    m.addCommand('Pre Comp Render', 'from Render_Submission.WriteNode import *;WriteNode().pre_comp_write()', 'alt+f3')
+    m.addCommand('-', '-', '')
+except AttributeError:
+    pass
+
 
 
 class WriteNode:
@@ -15,10 +19,9 @@ class WriteNode:
         project_name = nuke.Root()['name'].getValue()
         shot_code = nuke.root().name().rsplit('/')[5]
         google_drive = bf.json_read_write()
+
         if project_name:
             self.mov_file_path = project_name.replace('Scripts', 'Renders/Review/Comp')[:-3] + '.mov'
-            # self.exr_file_path = project_name.replace('Scripts', 'Renders/Final')[:-3] + '.%04d.exr'
-            print google_drive
             self.exr_file_path = os.path.join(google_drive, 'Final/{}/{}.%04d.exr'.format(shot_code, shot_code))
         else:
             self.mov_file_path, self.exr_file_path = '', ''
@@ -57,3 +60,9 @@ class WriteNode:
             return pre_comp_node
         except TypeError:
             print 'No input entered...'
+
+# String testing
+if __name__ == '__main__':
+    google_drive = "C:/Users/Ben/Google Drive/Rise'n'shine/VFX Project/"
+    shot_code = "C:/Users/Ben/Google Drive/Rise'n'shine/VFX Project/Comp/006_000/Scripts/006_000_v007.nk".rsplit('/')[-3]
+    print os.path.join(google_drive, 'Final/{}/{}.%04d.exr'.format(shot_code, shot_code))
