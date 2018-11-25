@@ -4,6 +4,12 @@ import nuke
 from getpass import getuser
 
 
+def make_dir(folder):
+    try:
+        os.makedirs(folder)
+    except WindowsError:
+        pass
+
 def json_write(file_path, data):
     with open(file_path, 'w') as open_write_file:
         json.dump(data, open_write_file, indent=4)
